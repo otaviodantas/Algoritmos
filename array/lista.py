@@ -1,57 +1,42 @@
-
 from node import Node
 
 
-class LinList:
+class LinkedList():
 
     def __init__(self):
         self.head = None
 
-    def __str__(self):
-        current = self.head
-        while current != None:
-            content = current.getter_data
-            current = current.getter_next
-            print(content)
-
-    def add(self, data):
+    def add_init(self, data):
         node = Node(data)
-        node.setter_next(self.head)
+        node.next = self.head
         self.head = node
 
-    def size_list(self):
-        count = 0
-        current = self.head
-        while current != None:
-            count += 1
-            current = current.getter_next
+    def insert(self, data, index_node: int):
+        node = Node(data)
+        before_node = self._get_node(index_node - 1)
+        node.sett_next(before_node.gett_next)
+        before_node.sett_next(node)
 
-        return count
+    def remove(self, index_node):
+        before_node = self._get_node(index_node - 1)
+        want_remove_node = self._get_node(index_node)
+        before_node.sett_next(want_remove_node.gett_next)
 
-    def search(self, data):
-        current = self.head
-        found = False
-
-        while(current != None and not found):
-            if current.getter_data == data:
-                found = True
+    def _get_node(self, index_node: int):
+        select_node = self.head
+        for i in range(index_node):
+            if select_node:
+                select_node = select_node.gett_next
             else:
-                current = current.getter_next
+                raise IndexError("list index out of range")
+        return select_node
 
-        return found
+    def __repr__(self):
+        arrow_count = self.head
+        data_list = []
+        while arrow_count:
+            data_list.append(str(arrow_count.gett_data))
+            arrow_count = arrow_count.gett_next
 
-    def remove(self, item):
-        found = False
-        previus = None
-        current = self.head
-        while not found:
-            if current.getter_data == item:
-                found = True
-            else:
-                previus = current
-                current = current.getter_next
-
-        if previus == None:
-            self.head = current.getter_next
-        else:
-            previus.setter_next(current.getter_next)
+        data_list.append("None")
+        return " -> ".join(data_list)

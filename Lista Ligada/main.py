@@ -1,5 +1,4 @@
 from lista import LinkedList
-from node import Node
 
 lista = LinkedList()
 lista.add_init(1)
